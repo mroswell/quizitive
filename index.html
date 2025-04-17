@@ -779,7 +779,7 @@
                 `;
                 
                 // Fetch the list of quiz files from the quizzes directory on GitHub
-                const response = await fetch('https://api.github.com/repos/{owner}/{repo}/contents/quizzes');
+                const response = await fetch('https://api.github.com/repos/mroswell/quizitive/contents/quizzes');
                 
                 if (!response.ok) {
                     throw new Error('Failed to fetch quizzes');
