@@ -1,0 +1,1825 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuizHub - GETMARKED JSON Quiz Platform</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2c3e50;
+            --accent-color: #e74c3c;
+            --light-color: #ecf0f1;
+            --dark-color: #34495e;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--dark-color);
+            background-color: var(--light-color);
+            transition: background-color 0.3s ease;
+        }
+
+        .dark-mode {
+            --light-color: #2c3e50;
+            --dark-color: #ecf0f1;
+            background-color: var(--light-color);
+            color: var(--dark-color);
+        }
+
+        .container {
+            max-width: 1000px;
+        }
+
+        .navbar {
+            background-color: var(--secondary-color);
+        }
+
+        .navbar-brand {
+            font-weight: bold;
+            color: white !important;
+        }
+
+        .quiz-card {
+            transition: transform 0.3s, box-shadow 0.3s;
+            border-radius: 10px;
+            overflow: hidden;
+            height: 100%;
+            background-color: white;
+            border: none;
+        }
+
+        .dark-mode .quiz-card {
+            background-color: var(--secondary-color);
+        }
+
+        .quiz-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .quiz-card-header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 15px;
+        }
+
+        .quiz-card-body {
+            padding: 20px;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        .btn-primary:hover {
+            background-color: #2980b9;
+            border-color: #2980b9;
+        }
+
+        .progress {
+            height: 10px;
+            margin-bottom: 20px;
+        }
+
+        .question-container {
+            margin-bottom: 30px;
+        }
+
+        .option {
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .dark-mode .option {
+            border-color: #4a6380;
+        }
+
+        .option:hover {
+            background-color: #f5f5f5;
+        }
+
+        .dark-mode .option:hover {
+            background-color: #3a4a5e;
+        }
+
+        .option.selected {
+            border-color: var(--primary-color);
+            background-color: rgba(52, 152, 219, 0.1);
+        }
+
+        .option.correct {
+            border-color: #2ecc71;
+            background-color: rgba(46, 204, 113, 0.1);
+        }
+
+        .option.incorrect {
+            border-color: var(--accent-color);
+            background-color: rgba(231, 76, 60, 0.1);
+        }
+
+        .feedback-container {
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .feedback-correct {
+            background-color: rgba(46, 204, 113, 0.1);
+            border: 1px solid #2ecc71;
+        }
+
+        .feedback-incorrect {
+            background-color: rgba(231, 76, 60, 0.1);
+            border: 1px solid var(--accent-color);
+        }
+
+        .results-container {
+            text-align: center;
+            padding: 30px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .dark-mode .results-container {
+            background-color: var(--secondary-color);
+        }
+
+        .score-circle {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 30px;
+        }
+
+        .share-container {
+            margin-top: 20px;
+        }
+
+        .share-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 5px;
+            color: white;
+            transition: transform 0.3s;
+        }
+
+        .share-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .loading-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 300px;
+        }
+
+        .spinner-border {
+            width: 3rem;
+            height: 3rem;
+        }
+
+        @media (max-width: 768px) {
+            .quiz-selector {
+                padding: 10px;
+            }
+            
+            .quiz-card {
+                margin-bottom: 20px;
+            }
+            
+            .option {
+                padding: 12px;
+            }
+            
+            .score-circle {
+                width: 120px;
+                height: 120px;
+            }
+        }
+
+        /* Accessibility enhancements */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
+        }
+
+        .high-contrast {
+            --primary-color: #0066CC;
+            --secondary-color: #000000;
+            --accent-color: #CC0000;
+            --light-color: #FFFFFF;
+            --dark-color: #000000;
+        }
+
+        .large-text {
+            font-size: 120% !important;
+        }
+
+        .large-text .option {
+            padding: 20px;
+        }
+
+        /* Quiz editor styles */
+        #editor-container {
+            display: none;
+        }
+
+        .editor-section {
+            margin-bottom: 30px;
+        }
+
+        .editor-question {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .dark-mode .editor-question {
+            background-color: #3a4a5e;
+        }
+
+        .editor-options {
+            margin-top: 10px;
+        }
+
+        .editor-option {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .github-login-btn {
+            background-color: #24292e;
+            color: white;
+        }
+
+        .github-login-btn:hover {
+            background-color: #3a3a3a;
+            color: white;
+        }
+    </style>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark mb-4">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-brain"></i> QuizHub
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#" id="home-link">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" id="create-quiz-link">Create Quiz</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" id="leaderboard-link">Leaderboard</a>
+                    </li>
+                </ul>
+                <div class="d-flex">
+                    <button id="login-button" class="btn btn-outline-light me-2">
+                        <i class="fab fa-github"></i> Login with GitHub
+                    </button>
+                    <div class="dropdown">
+                        <button class="btn btn-outline-light dropdown-toggle" type="button" id="accessibilityDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-universal-access"></i>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="accessibilityDropdown">
+                            <li><button class="dropdown-item" id="toggle-dark-mode">Dark Mode</button></li>
+                            <li><button class="dropdown-item" id="toggle-high-contrast">High Contrast</button></li>
+                            <li><button class="dropdown-item" id="toggle-large-text">Large Text</button></li>
+                            <li><button class="dropdown-item" id="toggle-screen-reader">Screen Reader Optimized</button></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Quiz Selector View -->
+        <div id="quiz-selector" class="mb-4">
+            <h1 class="mb-4">Available Quizzes</h1>
+            <div class="row" id="quiz-cards-container">
+                <div class="col-12 text-center loading-container">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quiz View -->
+        <div id="quiz-container" style="display: none;">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <button id="back-to-quizzes" class="btn btn-outline-secondary">
+                    <i class="fas fa-arrow-left"></i> Back to Quizzes
+                </button>
+                <div id="quiz-timer" class="fs-5">Time: 00:00</div>
+            </div>
+            
+            <h1 id="quiz-title" class="mb-3">Quiz Title</h1>
+            <p id="quiz-description" class="mb-4">Quiz description text</p>
+            
+            <div class="progress mb-4">
+                <div id="quiz-progress" class="progress-bar" role="progressbar" style="width: 0%"></div>
+            </div>
+            
+            <div id="question-container" class="question-container">
+                <h2 id="question-text" class="mb-4">Question text will appear here</h2>
+                <div id="options-container">
+                    <!-- Options will be inserted here -->
+                </div>
+                <div id="feedback-container" class="feedback-container">
+                    <p id="feedback-text"></p>
+                </div>
+            </div>
+            
+            <div class="d-flex justify-content-between">
+                <button id="prev-button" class="btn btn-outline-primary" disabled>Previous</button>
+                <button id="next-button" class="btn btn-primary">Next</button>
+            </div>
+        </div>
+
+        <!-- Results View -->
+        <div id="results-container" style="display: none;" class="results-container">
+            <h1 class="mb-4">Quiz Results</h1>
+            
+            <div class="score-circle">
+                <div class="fs-1 fw-bold"><span id="correct-answers">0</span>/<span id="total-questions">0</span></div>
+                <div class="fs-4"><span id="percentage">0%</span></div>
+            </div>
+            
+            <h2 id="result-message" class="mb-4">Great job!</h2>
+            
+            <div class="d-flex justify-content-center gap-3 mb-4">
+                <button id="review-answers" class="btn btn-primary">Review Answers</button>
+                <button id="retry-quiz" class="btn btn-outline-primary">Retry Quiz</button>
+                <button id="back-to-quizzes-results" class="btn btn-outline-secondary">Back to Quizzes</button>
+            </div>
+            
+            <div class="share-container">
+                <p class="fw-bold">Share your results:</p>
+                <div class="share-buttons">
+                    <a href="#" class="share-btn" style="background-color: #1877f2;" id="share-facebook">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="#" class="share-btn" style="background-color: #1da1f2;" id="share-twitter">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" class="share-btn" style="background-color: #0a66c2;" id="share-linkedin">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                    <a href="#" class="share-btn" style="background-color: #25D366;" id="share-whatsapp">
+                        <i class="fab fa-whatsapp"></i>
+                    </a>
+                </div>
+                <div class="mt-3">
+                    <button id="copy-results" class="btn btn-sm btn-outline-primary">
+                        <i class="fas fa-copy"></i> Copy Results URL
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Leaderboard View -->
+        <div id="leaderboard-container" style="display: none;">
+            <h1 class="mb-4">Leaderboard</h1>
+            
+            <div class="card mb-4">
+                <div class="card-header">
+                    <ul class="nav nav-tabs card-header-tabs" id="leaderboard-tabs">
+                        <li class="nav-item">
+                            <a class="nav-link active" data-bs-toggle="tab" href="#global-leaderboard">Global</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-bs-toggle="tab" href="#friends-leaderboard">Friends</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="card-body">
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="global-leaderboard">
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Rank</th>
+                                            <th>User</th>
+                                            <th>Quiz</th>
+                                            <th>Score</th>
+                                            <th>Time</th>
+                                            <th>Date</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="global-leaderboard-body">
+                                        <!-- Global leaderboard entries go here -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="friends-leaderboard">
+                            <div id="friends-login-message" class="text-center py-4">
+                                <p>Please log in with GitHub to see your friends' scores</p>
+                                <button class="btn btn-dark github-login-btn">
+                                    <i class="fab fa-github"></i> Login with GitHub
+                                </button>
+                            </div>
+                            <div id="friends-leaderboard-content" style="display: none;">
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>Rank</th>
+                                                <th>Friend</th>
+                                                <th>Quiz</th>
+                                                <th>Score</th>
+                                                <th>Time</th>
+                                                <th>Date</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="friends-leaderboard-body">
+                                            <!-- Friends leaderboard entries go here -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <button id="back-to-quizzes-leaderboard" class="btn btn-outline-secondary">
+                <i class="fas fa-arrow-left"></i> Back to Quizzes
+            </button>
+        </div>
+
+        <!-- Quiz Editor -->
+        <div id="editor-container">
+            <h1 class="mb-4">Quiz Editor</h1>
+            
+            <div id="github-login-required" class="alert alert-info">
+                <p><i class="fab fa-github"></i> Please log in with GitHub to create or edit quizzes.</p>
+                <button class="btn btn-dark github-login-btn mt-2">
+                    <i class="fab fa-github"></i> Login with GitHub
+                </button>
+            </div>
+            
+            <div id="editor-content" style="display: none;">
+                <div class="alert alert-info mb-4">
+                    <p><i class="fas fa-info-circle"></i> Changes will be saved to your GitHub repository in the 'quizzes' directory.</p>
+                </div>
+                
+                <form id="quiz-editor-form">
+                    <div class="mb-4 editor-section">
+                        <h2 class="mb-3">Quiz Details</h2>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="edit-quiz-title" class="form-label">Quiz Title</label>
+                                    <input type="text" class="form-control" id="edit-quiz-title" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="edit-quiz-category" class="form-label">Category</label>
+                                    <select class="form-select" id="edit-quiz-category" required>
+                                        <option value="MCQ">Multiple Choice</option>
+                                        <option value="MRQ">Multiple Response</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="edit-quiz-stimulus" class="form-label">Introduction/Context (HTML supported)</label>
+                            <textarea class="form-control" id="edit-quiz-stimulus" rows="3"></textarea>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4 editor-section">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h2>Questions</h2>
+                            <button type="button" id="add-question-btn" class="btn btn-success">
+                                <i class="fas fa-plus"></i> Add Question
+                            </button>
+                        </div>
+                        
+                        <div id="questions-container">
+                            <!-- Questions will be added here dynamically -->
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4 editor-section">
+                        <h2 class="mb-3">Metadata</h2>
+                        <div class="row mb-3">
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label for="edit-quiz-difficulty" class="form-label">Difficulty</label>
+                                    <select class="form-select" id="edit-quiz-difficulty">
+                                        <option value="Easy">Easy</option>
+                                        <option value="Medium">Medium</option>
+                                        <option value="Hard">Hard</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label for="edit-quiz-topic" class="form-label">Topic</label>
+                                    <input type="text" class="form-control" id="edit-quiz-topic">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label for="edit-quiz-tags" class="form-label">Tags (comma separated)</label>
+                                    <input type="text" class="form-control" id="edit-quiz-tags">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4 d-flex justify-content-between">
+                        <button type="button" id="back-from-editor" class="btn btn-outline-secondary">
+                            <i class="fas fa-arrow-left"></i> Back
+                        </button>
+                        <div>
+                            <button type="button" id="preview-quiz-btn" class="btn btn-outline-primary me-2">
+                                <i class="fas fa-eye"></i> Preview
+                            </button>
+                            <button type="submit" id="save-quiz-btn" class="btn btn-success">
+                                <i class="fas fa-save"></i> Save to GitHub
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- GitHub Login Modal -->
+    <div class="modal fade" id="github-auth-modal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">GitHub Authentication</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>To create or edit quizzes, you need to authenticate with GitHub. This allows the app to create or modify files in your GitHub repository.</p>
+                    <div class="d-grid gap-2">
+                        <button class="btn btn-dark github-login-btn">
+                            <i class="fab fa-github"></i> Authorize with GitHub
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Question Template (for editor) -->
+    <template id="question-template">
+        <div class="editor-question" data-question-index="{index}">
+            <div class="d-flex justify-content-between align-items-start mb-3">
+                <h3>Question {number}</h3>
+                <button type="button" class="btn btn-danger delete-question-btn">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </div>
+            
+            <div class="mb-3">
+                <label class="form-label">Question Text (HTML supported)</label>
+                <textarea class="form-control question-text" rows="2" required></textarea>
+            </div>
+            
+            <div class="editor-options">
+                <label class="form-label">Options</label>
+                <div class="options-container">
+                    <!-- Options will be added here -->
+                </div>
+                <button type="button" class="btn btn-outline-primary add-option-btn mt-2">
+                    <i class="fas fa-plus"></i> Add Option
+                </button>
+            </div>
+            
+            <div class="mt-3">
+                <label class="form-label">Feedback for Correct Answer</label>
+                <textarea class="form-control feedback-correct" rows="2"></textarea>
+            </div>
+            
+            <div class="mt-3">
+                <label class="form-label">Feedback for Incorrect Answer</label>
+                <textarea class="form-control feedback-incorrect" rows="2"></textarea>
+            </div>
+        </div>
+    </template>
+
+    <!-- Option Template (for editor) -->
+    <template id="option-template">
+        <div class="editor-option mb-2">
+            <div class="form-check">
+                <input class="form-check-input option-correct" type="checkbox" id="option-correct-{questionIndex}-{optionIndex}">
+                <label class="form-check-label" for="option-correct-{questionIndex}-{optionIndex}">
+                    Correct
+                </label>
+            </div>
+            <div class="input-group ms-3">
+                <input type="text" class="form-control option-text" placeholder="Option text" required>
+                <button class="btn btn-outline-danger delete-option-btn" type="button">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+    </template>
+
+    <footer class="bg-dark text-light py-4 mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5><i class="fas fa-brain"></i> QuizHub</h5>
+                    <p>A platform for creating and sharing interactive quizzes using the GETMARKED JSON format.</p>
+                </div>
+                <div class="col-md-3">
+                    <h5>Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-light">Home</a></li>
+                        <li><a href="#" class="text-light">Create Quiz</a></li>
+                        <li><a href="#" class="text-light">Leaderboard</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h5>Connect</h5>
+                    <div class="d-flex">
+                        <a href="#" class="text-light me-3"><i class="fab fa-github fa-lg"></i></a>
+                        <a href="#" class="text-light me-3"><i class="fab fa-twitter fa-lg"></i></a>
+                        <a href="#" class="text-light"><i class="fas fa-envelope fa-lg"></i></a>
+                    </div>
+                </div>
+            </div>
+            <hr class="mt-3">
+            <div class="text-center">
+                <p class="mb-0">&copy; 2025 QuizHub. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/4.0.2/marked.min.js"></script>
+    
+    <script>
+        // Global variables
+        let quizzes = [];
+        let currentQuiz = null;
+        let currentQuestionIndex = 0;
+        let userAnswers = [];
+        let quizStartTime = null;
+        let quizTimer = null;
+        let elapsedTime = 0;
+        let githubToken = null;
+        let githubUsername = null;
+        let quizEditor = {
+            questions: []
+        };
+
+        // DOM elements
+        const quizSelector = document.getElementById('quiz-selector');
+        const quizContainer = document.getElementById('quiz-container');
+        const resultsContainer = document.getElementById('results-container');
+        const leaderboardContainer = document.getElementById('leaderboard-container');
+        const editorContainer = document.getElementById('editor-container');
+        const quizCardsContainer = document.getElementById('quiz-cards-container');
+
+        // Event listeners for navigation
+        document.getElementById('home-link').addEventListener('click', showQuizSelector);
+        document.getElementById('create-quiz-link').addEventListener('click', showEditor);
+        document.getElementById('leaderboard-link').addEventListener('click', showLeaderboard);
+        document.getElementById('back-to-quizzes').addEventListener('click', showQuizSelector);
+        document.getElementById('back-to-quizzes-results').addEventListener('click', showQuizSelector);
+        document.getElementById('back-to-quizzes-leaderboard').addEventListener('click', showQuizSelector);
+        document.getElementById('back-from-editor').addEventListener('click', showQuizSelector);
+
+        // Event listeners for quiz navigation
+        document.getElementById('prev-button').addEventListener('click', showPreviousQuestion);
+        document.getElementById('next-button').addEventListener('click', handleNextButton);
+        document.getElementById('retry-quiz').addEventListener('click', retryQuiz);
+        document.getElementById('review-answers').addEventListener('click', reviewAnswers);
+
+        // Event listeners for editor
+        document.getElementById('add-question-btn').addEventListener('click', addQuestion);
+        document.getElementById('quiz-editor-form').addEventListener('submit', saveQuiz);
+        document.getElementById('preview-quiz-btn').addEventListener('click', previewQuiz);
+
+        // Event listeners for accessibility features
+        document.getElementById('toggle-dark-mode').addEventListener('click', toggleDarkMode);
+        document.getElementById('toggle-high-contrast').addEventListener('click', toggleHighContrast);
+        document.getElementById('toggle-large-text').addEventListener('click', toggleLargeText);
+        document.getElementById('toggle-screen-reader').addEventListener('click', toggleScreenReader);
+
+        // Login button
+        document.getElementById('login-button').addEventListener('click', authenticateWithGitHub);
+
+        // Init
+        initApp();
+
+        // ====== Main Functions ======
+
+        function initApp() {
+            // Check for GitHub token in local storage
+            checkGitHubAuth();
+            
+            // Load quizzes
+            loadQuizzes();
+            
+            // Check URL parameters for direct quiz access
+            checkUrlParams();
+        }
+
+        async function loadQuizzes() {
+            try {
+                // Empty the container first
+                quizCardsContainer.innerHTML = `
+                    <div class="col-12 text-center loading-container">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
+                `;
+                
+                // Fetch the list of quiz files from the quizzes directory on GitHub
+                const response = await fetch('https://api.github.com/repos/{owner}/{repo}/contents/quizzes');
+                
+                if (!response.ok) {
+                    throw new Error('Failed to fetch quizzes');
+                }
+                
+                const files = await response.json();
+                
+                // Filter for JSON files
+                const quizFiles = files.filter(file => file.name.endsWith('.json'));
+                
+                // Fetch each quiz file
+                quizzes = await Promise.all(quizFiles.map(async file => {
+                    const quizResponse = await fetch(file.download_url);
+                    if (!quizResponse.ok) {
+                        return null;
+                    }
+                    const quiz = await quizResponse.json();
+                    // Add the filename to the quiz object
+                    quiz.filename = file.name;
+                    return quiz;
+                }));
+                
+                // Remove any null entries (failed fetches)
+                quizzes = quizzes.filter(quiz => quiz !== null);
+                
+                // Render quiz cards
+                renderQuizCards();
+            } catch (error) {
+                console.error('Error loading quizzes:', error);
+                quizCardsContainer.innerHTML = `
+                    <div class="col-12">
+                        <div class="alert alert-danger">
+                            Error loading quizzes. Please try again later.
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        function renderQuizCards() {
+            // Clear loading spinner
+            quizCardsContainer.innerHTML = '';
+            
+            if (quizzes.length === 0) {
+                quizCardsContainer.innerHTML = `
+                    <div class="col-12">
+                        <div class="alert alert-info">
+                            No quizzes found. Create your first quiz by clicking on "Create Quiz" in the navigation bar.
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+            
+            // Create a card for each quiz
+            quizzes.forEach((quiz, index) => {
+                const metadata = quiz.metadata || {};
+                const questionCount = quiz.questions ? quiz.questions.length : 0;
+                const difficulty = metadata.Difficulty || 'Not specified';
+                const topic = metadata.Topic || 'General';
+                
+                const cardHtml = `
+                    <div class="col-md-6 col-lg-4 mb-4">
+                        <div class="quiz-card shadow-sm">
+                            <div class="quiz-card-header">
+                                <h3 class="h5 mb-0">${quiz.title || 'Unnamed Quiz'}</h3>
+                            </div>
+                            <div class="quiz-card-body">
+                                <p class="mb-3">${quiz.stimulus ? stripHtml(quiz.stimulus) : 'No description available'}</p>
+                                <div class="d-flex justify-content-between mb-3">
+                                    <span class="badge bg-secondary">${difficulty}</span>
+                                    <span class="badge bg-info">${topic}</span>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span><i class="fas fa-question-circle"></i> ${questionCount} questions</span>
+                                    <button class="btn btn-primary start-quiz-btn" data-quiz-index="${index}">
+                                        Start Quiz
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                quizCardsContainer.innerHTML += cardHtml;
+            });
+            
+            // Add event listeners to start buttons
+            document.querySelectorAll('.start-quiz-btn').forEach(button => {
+                button.addEventListener('click', () => {
+                    const quizIndex = parseInt(button.getAttribute('data-quiz-index'));
+                    startQuiz(quizIndex);
+                });
+            });
+        }
+
+        function stripHtml(html) {
+            // Create a temporary element
+            const temp = document.createElement('div');
+            temp.innerHTML = html;
+            // Get the text content
+            return temp.textContent || temp.innerText || '';
+        }
+
+        function startQuiz(quizIndex) {
+            currentQuiz = quizzes[quizIndex];
+            currentQuestionIndex = 0;
+            userAnswers = Array(currentQuiz.questions.length).fill(null);
+            
+            // Update URL with quiz ID for sharing
+            const quizFilename = currentQuiz.filename;
+            const cleanFilename = quizFilename.replace('.json', '');
+            window.history.pushState(null, '', `?quiz=${cleanFilename}`);
+            
+            // Reset and start the timer
+            elapsedTime = 0;
+            quizStartTime = new Date();
+            if (quizTimer) clearInterval(quizTimer);
+            quizTimer = setInterval(updateQuizTimer, 1000);
+            
+            // Show quiz container and hide others
+            showView(quizContainer);
+            
+            // Render the first question
+            renderQuestion();
+        }
+
+        function renderQuestion() {
+            const question = currentQuiz.questions[currentQuestionIndex];
+            const totalQuestions = currentQuiz.questions.length;
+            
+            // Update progress
+            document.getElementById('quiz-title').textContent = currentQuiz.title || 'Quiz';
+            document.getElementById('quiz-description').textContent = stripHtml(currentQuiz.stimulus) || 'Take this quiz to test your knowledge.';
+            document.getElementById('quiz-progress').style.width = `${((currentQuestionIndex + 1) / totalQuestions) * 100}%`;
+            
+            // Render question text
+            document.getElementById('question-text').innerHTML = question.prompt || 'No question text available';
+            
+            // Render options
+            const optionsContainer = document.getElementById('options-container');
+            optionsContainer.innerHTML = '';
+            
+            if (question.choices && Array.isArray(question.choices)) {
+                question.choices.forEach((choice, index) => {
+                    const optionId = choice.id || String.fromCharCode(97 + index); // a, b, c, etc.
+                    const isSelected = userAnswers[currentQuestionIndex] && 
+                                      (Array.isArray(userAnswers[currentQuestionIndex]) 
+                                          ? userAnswers[currentQuestionIndex].includes(optionId)
+                                          : userAnswers[currentQuestionIndex] === optionId);
+                    
+                    const optionHtml = `
+                        <div class="option ${isSelected ? 'selected' : ''}" data-option-id="${optionId}">
+                            <div class="d-flex align-items-center">
+                                <span class="option-letter me-3">${optionId.toUpperCase()}.</span>
+                                <div>${choice.content || 'No option text'}</div>
+                            </div>
+                        </div>
+                    `;
+                    
+                    optionsContainer.innerHTML += optionHtml;
+                });
+                
+                // Add event listeners to options
+                document.querySelectorAll('.option').forEach(option => {
+                    option.addEventListener('click', () => {
+                        selectOption(option.getAttribute('data-option-id'));
+                    });
+                });
+            } else {
+                optionsContainer.innerHTML = '<p class="text-danger">No options available for this question.</p>';
+            }
+            
+            // Hide feedback
+            const feedbackContainer = document.getElementById('feedback-container');
+            feedbackContainer.style.display = 'none';
+            
+            // Update navigation buttons
+            document.getElementById('prev-button').disabled = currentQuestionIndex === 0;
+            const nextButton = document.getElementById('next-button');
+            nextButton.textContent = currentQuestionIndex === totalQuestions - 1 ? 'Finish' : 'Next';
+        }
+
+        function selectOption(optionId) {
+            const question = currentQuiz.questions[currentQuestionIndex];
+            const isMRQ = currentQuiz.category === 'MRQ';
+            
+            // For Multiple Response Questions (MRQ), handle multiple selections
+            if (isMRQ) {
+                if (!userAnswers[currentQuestionIndex]) {
+                    userAnswers[currentQuestionIndex] = [];
+                }
+                
+                // Toggle selection
+                if (userAnswers[currentQuestionIndex].includes(optionId)) {
+                    userAnswers[currentQuestionIndex] = userAnswers[currentQuestionIndex].filter(id => id !== optionId);
+                } else {
+                    userAnswers[currentQuestionIndex].push(optionId);
+                }
+            } else {
+                // For Multiple Choice Questions (MCQ), only one selection
+                userAnswers[currentQuestionIndex] = optionId;
+            }
+            
+            // Update UI for selected options
+            document.querySelectorAll('.option').forEach(option => {
+                const currentOptionId = option.getAttribute('data-option-id');
+                
+                if (isMRQ) {
+                    // For MRQ, toggle selected class based on whether the option is in the selected array
+                    option.classList.toggle('selected', userAnswers[currentQuestionIndex].includes(currentOptionId));
+                } else {
+                    // For MCQ, only one option can be selected
+                    option.classList.toggle('selected', currentOptionId === optionId);
+                }
+            });
+            
+            // Provide immediate feedback if configured
+            if (question.feedback) {
+                const feedbackContainer = document.getElementById('feedback-container');
+                const feedbackText = document.getElementById('feedback-text');
+                const correctAnswers = question.answers && question.answers[0] ? question.answers[0] : [];
+                
+                let isCorrect;
+                if (isMRQ) {
+                    // Check if arrays have the same elements (regardless of order)
+                    const selectedSet = new Set(userAnswers[currentQuestionIndex]);
+                    const correctSet = new Set(correctAnswers);
+                    isCorrect = selectedSet.size === correctSet.size && 
+                                [...selectedSet].every(value => correctSet.has(value));
+                } else {
+                    // For MCQ, simple equality check
+                    isCorrect = correctAnswers.includes(optionId);
+                }
+                
+                // Display appropriate feedback
+                if (isCorrect) {
+                    feedbackContainer.className = 'feedback-container feedback-correct';
+                    feedbackText.textContent = question.feedback.correct || 'Correct!';
+                } else {
+                    feedbackContainer.className = 'feedback-container feedback-incorrect';
+                    feedbackText.textContent = question.feedback.incorrect || 'Incorrect. Try again.';
+                }
+                
+                feedbackContainer.style.display = 'block';
+            }
+        }
+
+        function showPreviousQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                renderQuestion();
+            }
+        }
+
+        function handleNextButton() {
+            const totalQuestions = currentQuiz.questions.length;
+            
+            // If no answer selected yet, prompt user
+            if (!userAnswers[currentQuestionIndex]) {
+                alert('Please select an answer before proceeding.');
+                return;
+            }
+            
+            // If last question, finish quiz
+            if (currentQuestionIndex === totalQuestions - 1) {
+                finishQuiz();
+                return;
+            }
+            
+            // Otherwise, go to next question
+            currentQuestionIndex++;
+            renderQuestion();
+        }
+
+        function updateQuizTimer() {
+            elapsedTime = Math.floor((new Date() - quizStartTime) / 1000);
+            const minutes = Math.floor(elapsedTime / 60);
+            const seconds = elapsedTime % 60;
+            document.getElementById('quiz-timer').textContent = `Time: ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        function finishQuiz() {
+            // Stop timer
+            if (quizTimer) {
+                clearInterval(quizTimer);
+                quizTimer = null;
+            }
+            
+            // Calculate score
+            const score = calculateScore();
+            const totalQuestions = currentQuiz.questions.length;
+            const percentage = Math.round((score / totalQuestions) * 100);
+            
+            // Update results view
+            document.getElementById('correct-answers').textContent = score;
+            document.getElementById('total-questions').textContent = totalQuestions;
+            document.getElementById('percentage').textContent = `${percentage}%`;
+            
+            // Set message based on score
+            let resultMessage;
+            if (percentage >= 90) {
+                resultMessage = 'Outstanding! You have mastered this topic!';
+            } else if (percentage >= 70) {
+                resultMessage = 'Great job! You have a solid understanding.';
+            } else if (percentage >= 50) {
+                resultMessage = 'Good effort! Keep studying to improve.';
+            } else {
+                resultMessage = 'Keep practicing! You\'ll improve with more study.';
+            }
+            document.getElementById('result-message').textContent = resultMessage;
+            
+            // Update share links
+            const quizName = encodeURIComponent(currentQuiz.title || 'Quiz');
+            const scoreText = encodeURIComponent(`I scored ${percentage}% (${score}/${totalQuestions}) on the ${currentQuiz.title || 'Quiz'}!`);
+            const url = encodeURIComponent(window.location.href);
+            
+            document.getElementById('share-facebook').href = `https://www.facebook.com/sharer/sharer.php?u=${url}&quote=${scoreText}`;
+            document.getElementById('share-twitter').href = `https://twitter.com/intent/tweet?text=${scoreText}&url=${url}`;
+            document.getElementById('share-linkedin').href = `https://www.linkedin.com/shareArticle?mini=true&url=${url}&title=${quizName}&summary=${scoreText}`;
+            document.getElementById('share-whatsapp').href = `https://wa.me/?text=${scoreText} ${url}`;
+            
+            // Show results view
+            showView(resultsContainer);
+            
+            // Save score to local storage if logged in
+            if (githubToken) {
+                saveScore(score, totalQuestions, elapsedTime);
+            }
+        }
+
+        function calculateScore() {
+            let score = 0;
+            
+            currentQuiz.questions.forEach((question, index) => {
+                const userAnswer = userAnswers[index];
+                const correctAnswers = question.answers && question.answers[0] ? question.answers[0] : [];
+                
+                if (currentQuiz.category === 'MRQ') {
+                    // For MRQ, all selected options must match correct answers
+                    if (userAnswer && Array.isArray(userAnswer)) {
+                        const userSet = new Set(userAnswer);
+                        const correctSet = new Set(correctAnswers);
+                        
+                        if (userSet.size === correctSet.size && 
+                            [...userSet].every(value => correctSet.has(value))) {
+                            score++;
+                        }
+                    }
+                } else {
+                    // For MCQ, the selected option must be in correct answers
+                    if (userAnswer && correctAnswers.includes(userAnswer)) {
+                        score++;
+                    }
+                }
+            });
+            
+            return score;
+        }
+
+        function saveScore(score, totalQuestions, time) {
+            // Get existing scores from local storage
+            const scoresJson = localStorage.getItem('quizHubScores');
+            const scores = scoresJson ? JSON.parse(scoresJson) : [];
+            
+            // Add new score
+            scores.push({
+                quiz: currentQuiz.title || 'Unnamed Quiz',
+                score: score,
+                totalQuestions: totalQuestions,
+                percentage: Math.round((score / totalQuestions) * 100),
+                time: time,
+                date: new Date().toISOString(),
+                user: githubUsername || 'Anonymous'
+            });
+            
+            // Save back to local storage
+            localStorage.setItem('quizHubScores', JSON.stringify(scores));
+        }
+
+        function retryQuiz() {
+            // Reset user answers
+            userAnswers = Array(currentQuiz.questions.length).fill(null);
+            currentQuestionIndex = 0;
+            
+            // Reset and start timer
+            elapsedTime = 0;
+            quizStartTime = new Date();
+            if (quizTimer) clearInterval(quizTimer);
+            quizTimer = setInterval(updateQuizTimer, 1000);
+            
+            // Show quiz view
+            showView(quizContainer);
+            renderQuestion();
+        }
+
+        function reviewAnswers() {
+            // Show quiz container with review mode
+            showView(quizContainer);
+            
+            // Start from the first question
+            currentQuestionIndex = 0;
+            renderQuestionWithAnswers();
+        }
+
+        function renderQuestionWithAnswers() {
+            // First render the question normally
+            renderQuestion();
+            
+            const question = currentQuiz.questions[currentQuestionIndex];
+            const correctAnswers = question.answers && question.answers[0] ? question.answers[0] : [];
+            const userAnswer = userAnswers[currentQuestionIndex];
+            
+            // Then highlight correct and incorrect answers
+            document.querySelectorAll('.option').forEach(option => {
+                const optionId = option.getAttribute('data-option-id');
+                
+                if (currentQuiz.category === 'MRQ') {
+                    // For MRQ
+                    if (correctAnswers.includes(optionId)) {
+                        option.classList.add('correct');
+                    } else if (userAnswer && userAnswer.includes(optionId)) {
+                        option.classList.add('incorrect');
+                    }
+                } else {
+                    // For MCQ
+                    if (correctAnswers.includes(optionId)) {
+                        option.classList.add('correct');
+                    } else if (optionId === userAnswer) {
+                        option.classList.add('incorrect');
+                    }
+                }
+            });
+            
+            // Show feedback
+            const feedbackContainer = document.getElementById('feedback-container');
+            const feedbackText = document.getElementById('feedback-text');
+            
+            // Determine if the answer was correct
+            let isCorrect;
+            if (currentQuiz.category === 'MRQ') {
+                if (userAnswer && Array.isArray(userAnswer)) {
+                    const userSet = new Set(userAnswer);
+                    const correctSet = new Set(correctAnswers);
+                    isCorrect = userSet.size === correctSet.size && 
+                                [...userSet].every(value => correctSet.has(value));
+                } else {
+                    isCorrect = false;
+                }
+            } else {
+                isCorrect = userAnswer && correctAnswers.includes(userAnswer);
+            }
+            
+            // Display appropriate feedback
+            if (question.feedback) {
+                if (isCorrect) {
+                    feedbackContainer.className = 'feedback-container feedback-correct';
+                    feedbackText.textContent = question.feedback.correct || 'Correct!';
+                } else {
+                    feedbackContainer.className = 'feedback-container feedback-incorrect';
+                    feedbackText.textContent = question.feedback.incorrect || 'Incorrect.';
+                }
+                
+                feedbackContainer.style.display = 'block';
+            }
+            
+            // Change next button text
+            const nextButton = document.getElementById('next-button');
+            nextButton.textContent = currentQuestionIndex === currentQuiz.questions.length - 1 ? 'Finish Review' : 'Next Question';
+            
+            // Remove click events from options
+            document.querySelectorAll('.option').forEach(option => {
+                const clone = option.cloneNode(true);
+                option.parentNode.replaceChild(clone, option);
+            });
+        }
+
+        // View management
+        function showView(viewElement) {
+            // Hide all main views
+            quizSelector.style.display = 'none';
+            quizContainer.style.display = 'none';
+            resultsContainer.style.display = 'none';
+            leaderboardContainer.style.display = 'none';
+            editorContainer.style.display = 'none';
+            
+            // Show the requested view
+            viewElement.style.display = 'block';
+            
+            // Update active nav link
+            document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
+            
+            if (viewElement === quizSelector) {
+                document.getElementById('home-link').classList.add('active');
+            } else if (viewElement === editorContainer) {
+                document.getElementById('create-quiz-link').classList.add('active');
+            } else if (viewElement === leaderboardContainer) {
+                document.getElementById('leaderboard-link').classList.add('active');
+            }
+        }
+
+        function showQuizSelector() {
+            // Stop quiz timer if running
+            if (quizTimer) {
+                clearInterval(quizTimer);
+                quizTimer = null;
+            }
+            
+            // Reset URL
+            window.history.pushState(null, '', window.location.pathname);
+            
+            // Show quiz selector view
+            showView(quizSelector);
+        }
+
+        function showLeaderboard() {
+            // Load leaderboard data
+            loadLeaderboardData();
+            
+            // Show leaderboard view
+            showView(leaderboardContainer);
+        }
+
+        function loadLeaderboardData() {
+            // Get saved scores from local storage
+            const scoresJson = localStorage.getItem('quizHubScores');
+            const scores = scoresJson ? JSON.parse(scoresJson) : [];
+            
+            // Sort by percentage and time (descending percentage, ascending time)
+            scores.sort((a, b) => {
+                if (b.percentage !== a.percentage) {
+                    return b.percentage - a.percentage;
+                }
+                return a.time - b.time;
+            });
+            
+            // Populate global leaderboard
+            const globalLeaderboardBody = document.getElementById('global-leaderboard-body');
+            globalLeaderboardBody.innerHTML = '';
+            
+            if (scores.length === 0) {
+                globalLeaderboardBody.innerHTML = `
+                    <tr>
+                        <td colspan="6" class="text-center">No scores yet. Be the first to complete a quiz!</td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            scores.forEach((score, index) => {
+                const date = new Date(score.date);
+                const formattedDate = `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
+                const minutes = Math.floor(score.time / 60);
+                const seconds = score.time % 60;
+                const formattedTime = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+                
+                const rowHtml = `
+                    <tr>
+                        <td>${index + 1}</td>
+                        <td>${score.user}</td>
+                        <td>${score.quiz}</td>
+                        <td>${score.score}/${score.totalQuestions} (${score.percentage}%)</td>
+                        <td>${formattedTime}</td>
+                        <td>${formattedDate}</td>
+                    </tr>
+                `;
+                
+                globalLeaderboardBody.innerHTML += rowHtml;
+            });
+            
+            // If logged in, show friends leaderboard (simplified - using the same data for demo)
+            if (githubToken) {
+                document.getElementById('friends-login-message').style.display = 'none';
+                document.getElementById('friends-leaderboard-content').style.display = 'block';
+                
+                const friendsLeaderboardBody = document.getElementById('friends-leaderboard-body');
+                friendsLeaderboardBody.innerHTML = globalLeaderboardBody.innerHTML;
+            } else {
+                document.getElementById('friends-login-message').style.display = 'block';
+                document.getElementById('friends-leaderboard-content').style.display = 'none';
+            }
+        }
+
+        // Accessibility functions
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+            localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
+        }
+
+        function toggleHighContrast() {
+            document.body.classList.toggle('high-contrast');
+            localStorage.setItem('highContrast', document.body.classList.contains('high-contrast'));
+        }
+
+        function toggleLargeText() {
+            document.body.classList.toggle('large-text');
+            localStorage.setItem('largeText', document.body.classList.contains('large-text'));
+        }
+
+        function toggleScreenReader() {
+            const isOptimized = !document.body.classList.contains('screen-reader-optimized');
+            document.body.classList.toggle('screen-reader-optimized', isOptimized);
+            
+            // Add additional ARIA attributes and screen reader specific enhancements
+            const options = document.querySelectorAll('.option');
+            options.forEach(option => {
+                option.setAttribute('role', 'radio');
+                option.setAttribute('aria-checked', option.classList.contains('selected'));
+            });
+            
+            localStorage.setItem('screenReaderOptimized', isOptimized);
+        }
+
+        // Load accessibility settings from local storage
+        function loadAccessibilitySettings() {
+            if (localStorage.getItem('darkMode') === 'true') {
+                document.body.classList.add('dark-mode');
+            }
+            
+            if (localStorage.getItem('highContrast') === 'true') {
+                document.body.classList.add('high-contrast');
+            }
+            
+            if (localStorage.getItem('largeText') === 'true') {
+                document.body.classList.add('large-text');
+            }
+            
+            if (localStorage.getItem('screenReaderOptimized') === 'true') {
+                document.body.classList.add('screen-reader-optimized');
+            }
+        }
+
+        // URL parameter handling
+        function checkUrlParams() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const quizParam = urlParams.get('quiz');
+            
+            if (quizParam) {
+                // Look for matching quiz by filename
+                const quizIndex = quizzes.findIndex(quiz => 
+                    quiz.filename && quiz.filename.replace('.json', '') === quizParam
+                );
+                
+                if (quizIndex !== -1) {
+                    startQuiz(quizIndex);
+                }
+            }
+        }
+
+        // GitHub Authentication
+        function checkGitHubAuth() {
+            githubToken = localStorage.getItem('githubToken');
+            githubUsername = localStorage.getItem('githubUsername');
+            
+            if (githubToken) {
+                document.getElementById('login-button').textContent = githubUsername || 'Logged In';
+                document.getElementById('login-button').classList.add('btn-success');
+                document.getElementById('login-button').classList.remove('btn-outline-light');
+            }
+        }
+
+        function authenticateWithGitHub() {
+            // For a real implementation, you would use OAuth with GitHub
+            // This is a simplified version for demonstration
+            
+            // In production, you would:
+            // 1. Redirect to GitHub OAuth
+            // 2. Get authorization code
+            // 3. Exchange for access token
+            // 4. Store token securely
+            
+            // Mock authentication for demo
+            githubToken = 'mock_token_' + Math.random().toString(36).substring(7);
+            githubUsername = 'DemoUser' + Math.floor(Math.random() * 1000);
+            
+            localStorage.setItem('githubToken', githubToken);
+            localStorage.setItem('githubUsername', githubUsername);
+            
+            document.getElementById('login-button').textContent = githubUsername;
+            document.getElementById('login-button').classList.add('btn-success');
+            document.getElementById('login-button').classList.remove('btn-outline-light');
+            
+            // If on editor page, update UI
+            if (editorContainer.style.display === 'block') {
+                document.getElementById('github-login-required').style.display = 'none';
+                document.getElementById('editor-content').style.display = 'block';
+            }
+        }
+
+        // Quiz Editor Functions
+        function showEditor() {
+            // Show editor container
+            showView(editorContainer);
+            
+            // Check if user is logged in
+            if (githubToken) {
+                document.getElementById('github-login-required').style.display = 'none';
+                document.getElementById('editor-content').style.display = 'block';
+                
+                // Initialize empty quiz
+                initializeNewQuiz();
+            } else {
+                document.getElementById('github-login-required').style.display = 'block';
+                document.getElementById('editor-content').style.display = 'none';
+            }
+        }
+
+        function initializeNewQuiz() {
+            // Reset editor state
+            quizEditor = {
+                title: '',
+                category: 'MCQ',
+                stimulus: '',
+                questions: [],
+                metadata: {
+                    Difficulty: 'Medium',
+                    Topic: 'General',
+                    Tags: ''
+                }
+            };
+            
+            // Clear form
+            document.getElementById('edit-quiz-title').value = '';
+            document.getElementById('edit-quiz-category').value = 'MCQ';
+            document.getElementById('edit-quiz-stimulus').value = '';
+            document.getElementById('edit-quiz-difficulty').value = 'Medium';
+            document.getElementById('edit-quiz-topic').value = 'General';
+            document.getElementById('edit-quiz-tags').value = '';
+            
+            // Clear questions container
+            document.getElementById('questions-container').innerHTML = '';
+            
+            // Add first question
+            addQuestion();
+        }
+
+        function addQuestion() {
+            const questionsContainer = document.getElementById('questions-container');
+            const questionIndex = quizEditor.questions.length;
+            
+            // Add question to editor state
+            quizEditor.questions.push({
+                prompt: '<div>New question</div>',
+                choices: [
+                    { id: 'a', content: '<div>Option A</div>' },
+                    { id: 'b', content: '<div>Option B</div>' },
+                    { id: 'c', content: '<div>Option C</div>' },
+                    { id: 'd', content: '<div>Option D</div>' }
+                ],
+                answers: [['a']],
+                feedback: {
+                    correct: 'Correct!',
+                    incorrect: 'Incorrect. Try again.'
+                }
+            });
+            
+            // Get question template
+            const template = document.getElementById('question-template').innerHTML;
+            
+            // Replace placeholders
+            const questionHtml = template
+                .replace(/{index}/g, questionIndex)
+                .replace(/{number}/g, questionIndex + 1);
+            
+            // Add to container
+            questionsContainer.innerHTML += questionHtml;
+            
+            // Get the added question element
+            const questionElement = questionsContainer.lastElementChild;
+            
+            // Add options
+            const optionsContainer = questionElement.querySelector('.options-container');
+            quizEditor.questions[questionIndex].choices.forEach((choice, optionIndex) => {
+                addOptionToQuestion(questionIndex, optionIndex, choice);
+            });
+            
+            // Set values
+            questionElement.querySelector('.question-text').value = 'New question';
+            questionElement.querySelector('.feedback-correct').value = 'Correct!';
+            questionElement.querySelector('.feedback-incorrect').value = 'Incorrect. Try again.';
+            
+            // Add event listeners
+            questionElement.querySelector('.delete-question-btn').addEventListener('click', () => {
+                deleteQuestion(questionIndex);
+            });
+            
+            questionElement.querySelector('.add-option-btn').addEventListener('click', () => {
+                const optionIndex = quizEditor.questions[questionIndex].choices.length;
+                const newOption = { 
+                    id: String.fromCharCode(97 + optionIndex), // a, b, c, etc.
+                    content: `<div>Option ${String.fromCharCode(65 + optionIndex)}</div>` // A, B, C, etc.
+                };
+                
+                quizEditor.questions[questionIndex].choices.push(newOption);
+                addOptionToQuestion(questionIndex, optionIndex, newOption);
+            });
+            
+            // Update form fields when they change
+            questionElement.querySelector('.question-text').addEventListener('input', (e) => {
+                quizEditor.questions[questionIndex].prompt = `<div>${e.target.value}</div>`;
+            });
+            
+            questionElement.querySelector('.feedback-correct').addEventListener('input', (e) => {
+                quizEditor.questions[questionIndex].feedback.correct = e.target.value;
+            });
+            
+            questionElement.querySelector('.feedback-incorrect').addEventListener('input', (e) => {
+                quizEditor.questions[questionIndex].feedback.incorrect = e.target.value;
+            });
+        }
+
+        function addOptionToQuestion(questionIndex, optionIndex, option) {
+            const questionElement = document.querySelector(`.editor-question[data-question-index="${questionIndex}"]`);
+            const optionsContainer = questionElement.querySelector('.options-container');
+            
+            // Get option template
+            const template = document.getElementById('option-template').innerHTML;
+            
+            // Replace placeholders
+            const optionHtml = template
+                .replace(/{questionIndex}/g, questionIndex)
+                .replace(/{optionIndex}/g, optionIndex);
+            
+            // Add to container
+            optionsContainer.innerHTML += optionHtml;
+            
+            // Get the added option element
+            const optionElement = optionsContainer.lastElementChild;
+            
+            // Set values
+            optionElement.querySelector('.option-text').value = option.content ? stripHtml(option.content) : `Option ${String.fromCharCode(65 + optionIndex)}`;
+            
+            // Check if this is a correct answer
+            const correctAnswers = quizEditor.questions[questionIndex].answers[0] || [];
+            optionElement.querySelector('.option-correct').checked = correctAnswers.includes(option.id);
+            
+            // Add event listeners
+            optionElement.querySelector('.delete-option-btn').addEventListener('click', () => {
+                deleteOption(questionIndex, optionIndex);
+            });
+            
+            optionElement.querySelector('.option-text').addEventListener('input', (e) => {
+                quizEditor.questions[questionIndex].choices[optionIndex].content = `<div>${e.target.value}</div>`;
+            });
+            
+            optionElement.querySelector('.option-correct').addEventListener('change', (e) => {
+                const isChecked = e.target.checked;
+                const optionId = quizEditor.questions[questionIndex].choices[optionIndex].id;
+                
+                if (quizEditor.category === 'MRQ') {
+                    // For MRQ, multiple correct answers are allowed
+                    if (!quizEditor.questions[questionIndex].answers[0]) {
+                        quizEditor.questions[questionIndex].answers[0] = [];
+                    }
+                    
+                    if (isChecked) {
+                        // Add to correct answers if not already there
+                        if (!quizEditor.questions[questionIndex].answers[0].includes(optionId)) {
+                            quizEditor.questions[questionIndex].answers[0].push(optionId);
+                        }
+                    } else {
+                        // Remove from correct answers
+                        quizEditor.questions[questionIndex].answers[0] = quizEditor.questions[questionIndex].answers[0].filter(id => id !== optionId);
+                    }
+                } else {
+                    // For MCQ, only one correct answer
+                    if (isChecked) {
+                        // Uncheck all other options
+                        questionElement.querySelectorAll('.option-correct').forEach((checkbox, idx) => {
+                            if (idx !== optionIndex) {
+                                checkbox.checked = false;
+                            }
+                        });
+                        
+                        // Set as the only correct answer
+                        quizEditor.questions[questionIndex].answers[0] = [optionId];
+                    } else {
+                        // Remove from correct answers
+                        quizEditor.questions[questionIndex].answers[0] = [];
+                    }
+                }
+            });
+        }
+
+        function deleteQuestion(questionIndex) {
+            // Remove from editor state
+            quizEditor.questions.splice(questionIndex, 1);
+            
+            // Remove from DOM
+            const questionElement = document.querySelector(`.editor-question[data-question-index="${questionIndex}"]`);
+            questionElement.remove();
+            
+            // Update question indices
+            document.querySelectorAll('.editor-question').forEach((element, index) => {
+                element.setAttribute('data-question-index', index);
+                element.querySelector('h3').textContent = `Question ${index + 1}`;
+                
+                // Update option indices
+                element.querySelectorAll('.editor-option').forEach((optionElement, optionIndex) => {
+                    const correctCheckbox = optionElement.querySelector('.option-correct');
+                    correctCheckbox.id = `option-correct-${index}-${optionIndex}`;
+                    optionElement.querySelector('.form-check-label').setAttribute('for', `option-correct-${index}-${optionIndex}`);
+                });
+            });
+        }
+
+        function deleteOption(questionIndex, optionIndex) {
+            // Get the question element
+            const questionElement = document.querySelector(`.editor-question[data-question-index="${questionIndex}"]`);
+            
+            // Remove from editor state
+            const deletedOptionId = quizEditor.questions[questionIndex].choices[optionIndex].id;
+            quizEditor.questions[questionIndex].choices.splice(optionIndex, 1);
+            
+            // Remove from correct answers if needed
+            if (quizEditor.questions[questionIndex].answers[0]) {
+                quizEditor.questions[questionIndex].answers[0] = quizEditor.questions[questionIndex].answers[0].filter(id => id !== deletedOptionId);
+            }
+            
+            // Remove from DOM
+            const optionsContainer = questionElement.querySelector('.options-container');
+            optionsContainer.children[optionIndex].remove();
+            
+            // Update option indices and IDs
+            quizEditor.questions[questionIndex].choices.forEach((choice, idx) => {
+                // Update option ID to maintain a, b, c... sequence
+                choice.id = String.fromCharCode(97 + idx);
+                
+                // Update DOM elements
+                const optionElement = optionsContainer.children[idx];
+                const correctCheckbox = optionElement.querySelector('.option-correct');
+                correctCheckbox.id = `option-correct-${questionIndex}-${idx}`;
+                optionElement.querySelector('.form-check-label').setAttribute('for', `option-correct-${questionIndex}-${idx}`);
+            });
+            
+            // Also update correct answers to use the new IDs
+            if (quizEditor.questions[questionIndex].answers[0]) {
+                quizEditor.questions[questionIndex].answers[0] = quizEditor.questions[questionIndex].answers[0].map(oldId => {
+                    const oldIndex = oldId.charCodeAt(0) - 97; // Convert a -> 0, b -> 1, etc.
+                    if (oldIndex >= optionIndex) {
+                        // This option's index was affected by the deletion
+                        if (oldIndex > optionIndex) {
+                            // This option was after the deleted one, shift index down
+                            return String.fromCharCode(oldIndex + 96); // Convert 1 -> a, 2 -> b, etc.
+                        }
+                        // This was the deleted option, remove it
+                        return null;
+                    }
+                    // This option wasn't affected, keep its ID
+                    return oldId;
+                }).filter(id => id !== null);
+            }
+        }
+
+        function saveQuiz(e) {
+            e.preventDefault();
+            
+            // Get values from form
+            quizEditor.title = document.getElementById('edit-quiz-title').value;
+            quizEditor.category = document.getElementById('edit-quiz-category').value;
+            quizEditor.stimulus = `<div>${document.getElementById('edit-quiz-stimulus').value}</div>`;
+            
+            // Set metadata
+            quizEditor.metadata = {
+                Difficulty: document.getElementById('edit-quiz-difficulty').value,
+                Topic: document.getElementById('edit-quiz-topic').value,
+                Tags: document.getElementById('edit-quiz-tags').value.split(',').map(tag => tag.trim())
+            };
+            
+            // Validate
+            if (!quizEditor.title) {
+                alert('Please enter a title for the quiz.');
+                return;
+            }
+            
+            if (quizEditor.questions.length === 0) {
+                alert('Please add at least one question to the quiz.');
+                return;
+            }
+            
+            // Check that each question has at least one correct answer
+            for (let i = 0; i < quizEditor.questions.length; i++) {
+                const question = quizEditor.questions[i];
+                if (!question.answers[0] || question.answers[0].length === 0) {
+                    alert(`Question ${i + 1} does not have a correct answer selected. Please select at least one correct answer.`);
+                    return;
+                }
+            }
+            
+            // In a real implementation, this would save to GitHub
+            // For this demo, we'll save to local storage
+            
+            // Generate a filename
+            const filename = `${quizEditor.title.toLowerCase().replace(/[^a-z0-9]/g, '-')}-${Date.now()}.json`;
+            
+            // Add to quizzes array
+            const newQuiz = { ...quizEditor, filename };
+            quizzes.push(newQuiz);
+            
+            // Save to local storage for demo purposes
+            localStorage.setItem('demoQuizzes', JSON.stringify(quizzes));
+            
+            // Show success message
+            alert('Quiz saved successfully!');
+            
+            // Return to quiz selector
+            showQuizSelector();
+            
+            // Update quiz cards
+            renderQuizCards();
+        }
+
+        function previewQuiz() {
+            // Get values from form
+            quizEditor.title = document.getElementById('edit-quiz-title').value;
+            quizEditor.category = document.getElementById('edit-quiz-category').value;
+            quizEditor.stimulus = `<div>${document.getElementById('edit-quiz-stimulus').value}</div>`;
+            
+            // Set metadata
+            quizEditor.metadata = {
+                Difficulty: document.getElementById('edit-quiz-difficulty').value,
+                Topic: document.getElementById('edit-quiz-topic').value,
+                Tags: document.getElementById('edit-quiz-tags').value.split(',').map(tag => tag.trim())
+            };
+            
+            // Create a temporary quiz for preview
+            const tempQuiz = { ...quizEditor, filename: 'preview.json' };
+            
+            // Temporarily add to quizzes array
+            quizzes.push(tempQuiz);
+            
+            // Start the quiz with the last index
+            startQuiz(quizzes.length - 1);
+            
+            // Remove the temporary quiz after starting
+            quizzes.pop();
+        }
+
+        // Load accessibility settings on startup
+        loadAccessibilitySettings();
+    </script>
+</body>
+</html>
