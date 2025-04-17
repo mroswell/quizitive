@@ -756,17 +756,38 @@
 
         // ====== Main Functions ======
 
-        function initApp() {
-            // Check for GitHub token in local storage
-            checkGitHubAuth();
+        // function initApp() {
+        //     // Check for GitHub token in local storage
+        //     checkGitHubAuth();
             
-            // Load quizzes
-            loadQuizzes();
+        //     // Load quizzes
+        //     loadQuizzes();
             
-            // Check URL parameters for direct quiz access
-            checkUrlParams();
-        }
+        //     // Check URL parameters for direct quiz access
+        //     checkUrlParams();
+        // }
 
+function initApp() {
+    // Check for GitHub token in local storage
+    checkGitHubAuth();
+    
+    // Load quizzes
+    loadQuizzes().catch(error => {
+        console.error('Fatal error loading quizzes:', error);
+        quizCardsContainer.innerHTML = `
+            <div class="col-12">
+                <div class="alert alert-danger">
+                    <p>Error loading quizzes: ${error.message}</p>
+                    <p>Please check the console for more details.</p>
+                </div>
+            </div>
+        `;
+    });
+    
+    // Check URL parameters for direct quiz access
+    checkUrlParams();
+}
+        
         async function loadQuizzes() {
             try {
                 // Empty the container first
