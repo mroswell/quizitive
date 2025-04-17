@@ -1036,14 +1036,14 @@ function initApp() {
                     isCorrect = correctAnswers.includes(optionId);
                 }
                 
-                // Display appropriate feedback
-                if (isCorrect) {
-                    feedbackContainer.className = 'feedback-container feedback-correct';
-                    feedbackText.textContent = question.feedback.correct || 'Correct!';
-                } else {
-                    feedbackContainer.className = 'feedback-container feedback-incorrect';
-                    feedbackText.textContent = question.feedback.incorrect || 'Incorrect. Try again.';
-                }
+// Display appropriate feedback
+if (isCorrect) {
+    feedbackContainer.className = 'feedback-container feedback-correct';
+    feedbackText.innerHTML = question.feedback.correct || 'Correct!';
+} else {
+    feedbackContainer.className = 'feedback-container feedback-incorrect';
+    feedbackText.innerHTML = question.feedback.incorrect || 'Incorrect. Try again.';
+}
                 
                 feedbackContainer.style.display = 'block';
             }
@@ -1258,10 +1258,10 @@ function initApp() {
             if (question.feedback) {
                 if (isCorrect) {
                     feedbackContainer.className = 'feedback-container feedback-correct';
-                    feedbackText.textContent = question.feedback.correct || 'Correct!';
+                    feedbackText.innerHTML = question.feedback.correct || 'Correct!';
                 } else {
                     feedbackContainer.className = 'feedback-container feedback-incorrect';
-                    feedbackText.textContent = question.feedback.incorrect || 'Incorrect.';
+                    feedbackText.innerHTML = question.feedback.incorrect || 'Incorrect.';
                 }
                 
                 feedbackContainer.style.display = 'block';
