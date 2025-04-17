@@ -1,1 +1,272 @@
-
+{
+  "title": "Current Events Quiz #2 (With Answers)",
+  "category": "MCQ",
+  "stimulus": "<div>The Lucas Sielaff and Lennon Tyler Case</div>",
+  "questions": [
+    {
+      "id": "1",
+      "title": "Q001 Why were Lucas Sielaff and Lennon Tyler detained at the US-Mexico border?",
+      "category": "MCQ",
+      "prompt": "<div>Why were Lucas Sielaff and Lennon Tyler detained at the US-Mexico border?</div>",
+      "answers": [["c"]],
+      "choices": [
+        {
+          "id": "a",
+          "content": "<div>They were smuggling illegal goods</div>"
+        },
+        {
+          "id": "b",
+          "content": "<div>They had overstayed their visa</div>"
+        },
+        {
+          "id": "c",
+          "content": "<div>For stating they were going to Las Vegas during questioning</div>"
+        }
+      ],
+      "points": 1.0,
+      "feedback": {
+        "correct": "<div>Correct! They were detained after stating they planned to visit Las Vegas.</div>",
+        "incorrect": "<div>Incorrect. They were detained after stating they planned to visit Las Vegas.</div>"
+      }
+    },
+    {
+      "id": "2",
+      "title": "Q002 What happened to US citizen Dr. Lennon Tyler during their border detention?",
+      "category": "MCQ",
+      "prompt": "<div>What happened to US citizen Dr. Lennon Tyler during their border detention?</div>",
+      "answers": [["b"]],
+      "choices": [
+        {
+          "id": "a",
+          "content": "<div>She was immediately allowed to leave</div>"
+        },
+        {
+          "id": "b",
+          "content": "<div>She was handcuffed and chained to a bench</div>"
+        },
+        {
+          "id": "c",
+          "content": "<div>She was asked to translate for Lucas</div>"
+        }
+      ],
+      "points": 1.0,
+      "feedback": {
+        "correct": "<div>Correct! Despite being a US citizen, she was handcuffed and chained to a bench.</div>",
+        "incorrect": "<div>Incorrect. Dr. Tyler was handcuffed and chained to a bench despite being a US citizen.</div>"
+      }
+    },
+    {
+      "id": "3",
+      "title": "Q003 How was their dog–who had recently had surgery in Mexico–treated?",
+      "category": "MCQ",
+      "prompt": "<div>How was their dog–who had recently had surgery in Mexico–treated?</div>",
+      "answers": [["a"]],
+      "choices": [
+        {
+          "id": "a",
+          "content": "<div>The dog was left in the car for at least four hours</div>"
+        },
+        {
+          "id": "b",
+          "content": "<div>The dog was petted and fed by authorities</div>"
+        },
+        {
+          "id": "c",
+          "content": "<div>The dog was put in a cage and staff had pet food delivered</div>"
+        }
+      ],
+      "points": 1.0,
+      "feedback": {
+        "correct": "<div>Correct! The dog was left in their car for at least four hours despite having recently had surgery.</div>",
+        "incorrect": "<div>Incorrect. The dog was left in their car for at least four hours despite having recently had surgery.</div>"
+      }
+    },
+    {
+      "id": "4",
+      "title": "Q004 How far into Lucas Sielaff's permitted 90-day stay was he when detained?",
+      "category": "MCQ",
+      "prompt": "<div>How far into Lucas Sielaff's permitted 90-day stay was he when detained?</div>",
+      "answers": [["b"]],
+      "choices": [
+        {
+          "id": "a",
+          "content": "<div>Day 1</div>"
+        },
+        {
+          "id": "b",
+          "content": "<div>22 days into his legal 90-day permit</div>"
+        },
+        {
+          "id": "c",
+          "content": "<div>He had overstayed by 10 days</div>"
+        }
+      ],
+      "points": 1.0,
+      "feedback": {
+        "correct": "<div>Correct! Lucas was only 22 days into his legal 90-day permit when he was detained.</div>",
+        "incorrect": "<div>Incorrect. Lucas was 22 days into his legal 90-day permit, not at the beginning or over his allowed time.</div>"
+      }
+    },
+    {
+      "id": "5",
+      "title": "Q005 How did US authorities handle Lennon Tyler's requests for information about her fiancé during his 16-day detention?",
+      "category": "MCQ",
+      "prompt": "<div>How did US authorities handle Lennon Tyler's requests for information about her fiancé during his 16-day detention?</div>",
+      "answers": [["c"]],
+      "choices": [
+        {
+          "id": "a",
+          "content": "<div>Provided regular updates</div>"
+        },
+        {
+          "id": "b",
+          "content": "<div>Allowed her to visit him daily</div>"
+        },
+        {
+          "id": "c",
+          "content": "<div>Gave her no information about his whereabouts</div>"
+        }
+      ],
+      "points": 1.0,
+      "feedback": {
+        "correct": "<div>Correct! Authorities provided no information to Lennon about Lucas's whereabouts during his detention.</div>",
+        "incorrect": "<div>Incorrect. Authorities gave Lennon no information about Lucas's whereabouts during his detention.</div>"
+      }
+    },
+    {
+      "id": "6",
+      "title": "Q006 What financial burden did this incident place on the couple?",
+      "category": "MCQ",
+      "prompt": "<div>What financial burden did this incident place on the couple?</div>",
+      "answers": [["c"]],
+      "choices": [
+        {
+          "id": "a",
+          "content": "<div>None, the US government covered all expenses</div>"
+        },
+        {
+          "id": "b",
+          "content": "<div>Only court fees</div>"
+        },
+        {
+          "id": "c",
+          "content": "<div>They had to pay for a $2,744 flight for Lucas to return to Germany</div>"
+        }
+      ],
+      "points": 1.0,
+      "feedback": {
+        "correct": "<div>Correct! They had to pay $2,744 for Lucas's flight back to Germany.</div>",
+        "incorrect": "<div>Incorrect. The couple had to pay $2,744 for Lucas's flight back to Germany.</div>"
+      }
+    },
+    {
+      "id": "7",
+      "title": "Q007 What longer-term impact did this experience have on Lucas?",
+      "category": "MCQ",
+      "prompt": "<div>What longer-term impact did this experience have on Lucas?</div>",
+      "answers": [["c"]],
+      "choices": [
+        {
+          "id": "a",
+          "content": "<div>No significant effects</div>"
+        },
+        {
+          "id": "b",
+          "content": "<div>Just a bad memory</div>"
+        },
+        {
+          "id": "c",
+          "content": "<div>Nightmares and psychological trauma requiring therapy</div>"
+        }
+      ],
+      "points": 1.0,
+      "feedback": {
+        "correct": "<div>Correct! Lucas experienced nightmares and psychological trauma that required therapy.</div>",
+        "incorrect": "<div>Incorrect. Lucas suffered from nightmares and psychological trauma that required therapy.</div>"
+      }
+    },
+    {
+      "id": "8",
+      "title": "Q008 What has this incident and others like it caused several countries to do?",
+      "category": "MCQ",
+      "prompt": "<div>What has this incident and others like it caused several countries to do?</div>",
+      "answers": [["c"]],
+      "choices": [
+        {
+          "id": "a",
+          "content": "<div>Ban travel to the US</div>"
+        },
+        {
+          "id": "b",
+          "content": "<div>File formal diplomatic complaints</div>"
+        },
+        {
+          "id": "c",
+          "content": "<div>Update their travel advisories for citizens visiting the US</div>"
+        }
+      ],
+      "points": 1.0,
+      "feedback": {
+        "correct": "<div>Correct! Several countries have updated their travel advisories for citizens visiting the US.</div>",
+        "incorrect": "<div>Incorrect. Several countries have updated their travel advisories for citizens visiting the US.</div>"
+      }
+    },
+    {
+      "id": "9",
+      "title": "Q009 What rights was Lucas denied during his detention?",
+      "category": "MCQ",
+      "prompt": "<div>What rights was Lucas denied during his detention?</div>",
+      "answers": [["a"]],
+      "choices": [
+        {
+          "id": "a",
+          "content": "<div>Denied a lawyer, denied access to a translator and clear explanations of allegations</div>"
+        },
+        {
+          "id": "b",
+          "content": "<div>Denied vegan food</div>"
+        },
+        {
+          "id": "c",
+          "content": "<div>Denied access to organic food</div>"
+        }
+      ],
+      "points": 1.0,
+      "feedback": {
+        "correct": "<div>Correct! Lucas was denied access to a lawyer, translator, and clear explanations of allegations.</div>",
+        "incorrect": "<div>Incorrect. Lucas was denied access to a lawyer, translator, and clear explanations of allegations.</div>"
+      }
+    },
+    {
+      "id": "10",
+      "title": "Q010 How has this experience affected the couple's future plans?",
+      "category": "MCQ",
+      "prompt": "<div>How has this experience affected the couple's future plans?</div>",
+      "answers": [["b"]],
+      "choices": [
+        {
+          "id": "a",
+          "content": "<div>No change in plans</div>"
+        },
+        {
+          "id": "b",
+          "content": "<div>They are reconsidering their wedding location and view of the US</div>"
+        },
+        {
+          "id": "c",
+          "content": "<div>They've decided to move to Mexico</div>"
+        }
+      ],
+      "points": 1.0,
+      "feedback": {
+        "correct": "<div>Correct! They are reconsidering their wedding location and their view of the US.</div>",
+        "incorrect": "<div>Incorrect. They are reconsidering their wedding location and their view of the US.</div>"
+      }
+    }
+  ],
+  "metadata": {
+    "Type": "Multiple Choice",
+    "Topic": "Current Events",
+    "Difficulty": "Medium"
+  }
+}
