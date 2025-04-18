@@ -3,9 +3,10 @@
   "category": "MCQ",
   "stimulus": "<div>The Lucas Sielaff and Lennon Tyler Case</div>",
   "date": "April 17, 2025"
+  "number": "2"
   "questions": [
     {
-      "id": "2",
+      "id": "1",
       "title": "Q001 Why were Lucas Sielaff and Lennon Tyler detained at the US-Mexico border?",
       "category": "MCQ",
       "prompt": "<div>Why were Lucas Sielaff and Lennon Tyler detained at the US-Mexico border?</div>",
