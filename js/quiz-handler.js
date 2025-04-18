@@ -185,7 +185,7 @@ function renderQuizCards() {
       <button class="btn btn-sm btn-primary">Start Quiz</button>
     </div>
     <div class="quiz-cell quiz-title flex-grow-1 fw-semibold">
-        ${quiz.stimulus ? stripHtml(quiz.stimulus) : Quiz'}
+        ${quiz.stimulus ? stripHtml(quiz.stimulus) : 'Quiz'}
     </div>
     <div class="quiz-cell quiz-questions text-muted small">
       <span>${questionCount} questions</span>
