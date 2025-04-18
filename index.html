@@ -23,9 +23,6 @@
                     <li class="nav-item">
                         <a class="nav-link active" href="#" id="home-link">Home</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#" id="leaderboard-link">Leaderboard</a>
-                    </li>
                 </ul>
                 <div class="d-flex">
                     <button id="login-button" class="btn btn-outline-light me-2">
@@ -133,77 +130,7 @@
             </div>
         </div>
 
-        <!-- Leaderboard View -->
-        <div id="leaderboard-container" style="display: none;">
-            <h1 class="mb-4">Leaderboard</h1>
-            
-            <div class="card mb-4">
-                <div class="card-header">
-                    <ul class="nav nav-tabs card-header-tabs" id="leaderboard-tabs">
-                        <li class="nav-item">
-                            <a class="nav-link active" data-bs-toggle="tab" href="#global-leaderboard">Global</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" data-bs-toggle="tab" href="#friends-leaderboard">Friends</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="card-body">
-                    <div class="tab-content">
-                        <div class="tab-pane fade show active" id="global-leaderboard">
-                            <div class="table-responsive">
-                                <table class="table table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th>Rank</th>
-                                            <th>User</th>
-                                            <th>Quiz</th>
-                                            <th>Score</th>
-                                            <th>Time</th>
-                                            <th>Date</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="global-leaderboard-body">
-                                        <!-- Global leaderboard entries go here -->
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                        <div class="tab-pane fade" id="friends-leaderboard">
-                            <div id="friends-login-message" class="text-center py-4">
-                                <p>Please log in with GitHub to see your friends' scores</p>
-                                <button class="btn btn-dark github-login-btn">
-                                    <i class="fab fa-github"></i> Login with GitHub
-                                </button>
-                            </div>
-                            <div id="friends-leaderboard-content" style="display: none;">
-                                <div class="table-responsive">
-                                    <table class="table table-hover">
-                                        <thead>
-                                            <tr>
-                                                <th>Rank</th>
-                                                <th>Friend</th>
-                                                <th>Quiz</th>
-                                                <th>Score</th>
-                                                <th>Time</th>
-                                                <th>Date</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="friends-leaderboard-body">
-                                            <!-- Friends leaderboard entries go here -->
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <button id="back-to-quizzes-leaderboard" class="btn btn-outline-secondary">
-                <i class="fas fa-arrow-left"></i> Back to Quizzes
-            </button>
-        </div>
+        
     </div>
 
     <!-- GitHub Login Modal -->
