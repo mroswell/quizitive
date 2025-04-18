@@ -13,15 +13,15 @@ let githubUsername = null;
 const quizSelector = document.getElementById('quiz-selector');
 const quizContainer = document.getElementById('quiz-container');
 const resultsContainer = document.getElementById('results-container');
-const leaderboardContainer = document.getElementById('leaderboard-container');
+// const leaderboardContainer = document.getElementById('leaderboard-container');
 const quizCardsContainer = document.getElementById('quiz-cards-container');
 
 // Event listeners for navigation
 document.getElementById('home-link').addEventListener('click', showQuizSelector);
-document.getElementById('leaderboard-link').addEventListener('click', showLeaderboard);
+// document.getElementById('leaderboard-link').addEventListener('click', showLeaderboard);
 document.getElementById('back-to-quizzes').addEventListener('click', showQuizSelector);
 document.getElementById('back-to-quizzes-results').addEventListener('click', showQuizSelector);
-document.getElementById('back-to-quizzes-leaderboard').addEventListener('click', showQuizSelector);
+// document.getElementById('back-to-quizzes-leaderboard').addEventListener('click', showQuizSelector);
 
 // Event listeners for quiz navigation
 document.getElementById('prev-button').addEventListener('click', showPreviousQuestion);
@@ -75,7 +75,7 @@ function showView(viewElement) {
     quizSelector.style.display = 'none';
     quizContainer.style.display = 'none';
     resultsContainer.style.display = 'none';
-    leaderboardContainer.style.display = 'none';
+    // leaderboardContainer.style.display = 'none';
     
     // Show the requested view
     viewElement.style.display = 'block';
@@ -149,10 +149,10 @@ function authenticateWithGitHub() {
     document.getElementById('login-button').classList.remove('btn-outline-light');
     
     // Update leaderboard if visible
-    if (leaderboardContainer.style.display === 'block') {
-        document.getElementById('friends-login-message').style.display = 'none';
-        document.getElementById('friends-leaderboard-content').style.display = 'block';
-    }
+    // if (leaderboardContainer.style.display === 'block') {
+    //     document.getElementById('friends-login-message').style.display = 'none';
+    //     document.getElementById('friends-leaderboard-content').style.display = 'block';
+    // }
 }
 
 // Helper function to strip HTML
