@@ -85,8 +85,9 @@ function showView(viewElement) {
     
     if (viewElement === quizSelector) {
         document.getElementById('home-link').classList.add('active');
-    } else if (viewElement === leaderboardContainer) {
-        document.getElementById('leaderboard-link').classList.add('active');
+    } 
+    // else if (viewElement === leaderboardContainer) {
+    //     document.getElementById('leaderboard-link').classList.add('active');
     }
 }
 
