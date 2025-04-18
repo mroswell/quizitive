@@ -182,7 +182,7 @@ function renderQuizCards() {
         <div class="quiz-list">
   <div class="quiz-row d-flex align-items-center px-3 py-3 mb-2">
     <div class="quiz-cell quiz-start">
-      <button class="btn btn-sm btn-primary">Start Quiz</button>
+      <button class="btn btn-sm btn-primary  data-quiz-index="${index}"">Start Quiz</button>
     </div>
     <div class="quiz-cell quiz-title flex-grow-1 fw-semibold">
         ${quiz.stimulus ? stripHtml(quiz.stimulus) : 'Quiz'}
