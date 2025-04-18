@@ -10,25 +10,115 @@ async function loadQuizzes() {
             </div>
         `;
         
-        // Hard-code quiz file paths for now
-        const quizFiles = [
-            'quizzes/example.json'
-        ];
+        // Get GitHub repository information from URL
+        const urlParts = window.location.hostname.split('.');
+        let owner = urlParts[0];
         
-        // Reset quizzes array
-        quizzes = [];
+        // Handle custom domains
+        if (urlParts.indexOf('github.io') === -1) {
+            // For custom domains, default to the repository name from the URL path
+            owner = 'mroswell'; // Default fallback, replace with your GitHub username
+        }
         
-        // Fetch each quiz file
-        for (const filePath of quizFiles) {
-            try {
-                const quizResponse = await fetch(filePath);
-                if (quizResponse.ok) {
+        // Get repository name from URL path
+        let repo = window.location.pathname.split('/')[1];
+        if (!repo || repo === '') {
+            // If path is empty (e.g., username.github.io with no repo in path)
+            repo = 'quizitive'; // Default fallback, replace with your repository name
+        }
+        
+        try {
+            // Fetch the list of quiz files from the quizzes directory on GitHub
+            const response = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/quizzes`);
+            
+            if (!response.ok) {
+                throw new Error(`Failed to fetch quizzes: ${response.status} ${response.statusText}`);
+            }
+            
+            const files = await response.json();
+            
+            // Filter for JSON files
+            const quizFiles = files.filter(file => file.name.endsWith('.json'));
+            
+            // Fetch each quiz file
+            quizzes = await Promise.all(quizFiles.map(async file => {
+                try {
+                    const quizResponse = await fetch(file.download_url);
+                    if (!quizResponse.ok) {
+                        console.error(`Failed to fetch quiz ${file.name}: ${quizResponse.status} ${quizResponse.statusText}`);
+                        return null;
+                    }
                     const quiz = await quizResponse.json();
-                    quiz.filename = filePath.split('/').pop();
-                    quizzes.push(quiz);
+                    // Add the filename to the quiz object
+                    quiz.filename = file.name;
+                    return quiz;
+                } catch (error) {
+                    console.error(`Error processing quiz ${file.name}:`, error);
+                    return null;
                 }
-            } catch (error) {
-                console.error(`Error loading quiz ${filePath}:`, error);
+            }));
+            
+            // Remove any null entries (failed fetches)
+            quizzes = quizzes.filter(quiz => quiz !== null);
+            
+        } catch (error) {
+            console.error('Error using GitHub API, falling back to direct file loading:', error);
+            
+            // Fallback: Direct file loading from the quizzes directory
+            try {
+                // Try to load a sample quiz file to see if direct loading works
+                const response = await fetch('quizzes/example.json');
+                if (response.ok) {
+                    const quiz = await response.json();
+                    quiz.filename = 'example.json';
+                    quizzes = [quiz];
+                    
+                    // Try to find more quizzes with common names
+                    const commonNames = ['quiz1.json', 'quiz2.json', 'geography.json', 'history.json', 'science.json'];
+                    
+                    // Load any additional quizzes that exist
+                    await Promise.all(commonNames.map(async filename => {
+                        try {
+                            const response = await fetch(`quizzes/${filename}`);
+                            if (response.ok) {
+                                const quiz = await response.json();
+                                quiz.filename = filename;
+                                quizzes.push(quiz);
+                            }
+                        } catch (e) {
+                            // Ignore errors for files that don't exist
+                        }
+                    }));
+                } else {
+                    throw new Error('Could not load example quiz');
+                }
+            } catch (directError) {
+                console.error('Error with direct file loading too:', directError);
+                
+                // Last resort: Try to find any JSON files in the current directory
+                const possibleQuizLocations = [
+                    'quizzes/example.json',
+                    'example.json',
+                    './quizzes/example.json'
+                ];
+                
+                for (const location of possibleQuizLocations) {
+                    try {
+                        const response = await fetch(location);
+                        if (response.ok) {
+                            const quiz = await response.json();
+                            quiz.filename = location.split('/').pop();
+                            quizzes = [quiz];
+                            break;
+                        }
+                    } catch (e) {
+                        // Continue to next location
+                    }
+                }
+                
+                if (quizzes.length === 0) {
+                    throw new Error('Could not load any quizzes');
+                }
             }
         }
         
@@ -39,7 +129,14 @@ async function loadQuizzes() {
         quizCardsContainer.innerHTML = `
             <div class="col-12">
                 <div class="alert alert-danger">
-                    Error loading quizzes: ${error.message}
+                    <p>Error loading quizzes: ${error.message}</p>
+                    <p>Please check that quiz files exist in the '/quizzes' directory and are in the correct JSON format.</p>
+                    <p>If you're seeing this error, you may need to:</p>
+                    <ol>
+                        <li>Make sure you have at least one quiz file in the 'quizzes' directory</li>
+                        <li>Verify that your quiz files are valid JSON in the GETMARKED format</li>
+                        <li>Check browser console for more detailed error information</li>
+                    </ol>
                 </div>
             </div>
         `;
