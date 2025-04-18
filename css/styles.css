@@ -314,3 +314,28 @@ body {
     }
 }
 
+.quiz-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.quiz-row {
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    transition: background-color 0.2s;
+}
+
+.quiz-row:hover {
+    background-color: #f8f9fa;
+}
+
+.dark-mode .quiz-row {
+    background-color: var(--secondary-color);
+    border-color: #4a6380;
+}
+
+.dark-mode .quiz-row:hover {
+    background-color: #3a4a5e;
+}
+
