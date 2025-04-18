@@ -1,0 +1,210 @@
+{
+  "title": "Current Events Quiz #1 (With Answers)",
+  "category": "MCQ",
+  "stimulus": "<div>The Kilmar Abrego Garcia Case</div>",
+  "date": "April 15, 2020",
+  "number": "1",
+  "questions": [
+    {
+      "id": "1",
+      "title": "Q001 Why was Kilmar Abrego Garcia initially granted protected status in the US in 2019?",
+      "category": "MCQ",
+      "prompt": "<div>Why was Kilmar Abrego Garcia initially granted protected status in the US in 2019?</div>",
+      "answers": [
+        [
+          "b"
+        ]
+      ],
+      "choices": [
+        {
+          "id": "a",
+          "content": "<div>Because he married a US citizen</div>"
+        },
+        {
+          "id": "b",
+          "content": "<div>Because he was fleeing gang violence and persecution in El Salvador</div>"
+        },
+        {
+          "id": "c",
+          "content": "<div>Because he came from wealth</div>"
+        },
+        {
+          "id": "d",
+          "content": "<div>Because he won a visa lottery</div>"
+        }
+      ],
+      "points": 1,
+      "feedback": {
+        "correct": "<div>Correct! Abrego Garcia was granted protected status because he was fleeing gang violence and persecution in El Salvador.</div>",
+        "incorrect": "<div>Incorrect. Abrego Garcia was granted protected status because he was fleeing gang violence and persecution in El Salvador.</div>"
+      }
+    },
+    {
+      "id": "2",
+      "title": "Q002 What has the US government admitted about Abrego Garcia's deportation?",
+      "category": "MCQ",
+      "prompt": "<div>What has the US government admitted about Abrego Garcia's deportation?</div>",
+      "answers": [
+        [
+          "b"
+        ]
+      ],
+      "choices": [
+        {
+          "id": "a",
+          "content": "<div>That it was justified due to criminal activity</div>"
+        },
+        {
+          "id": "b",
+          "content": "<div>That it was an \"administrative error\"</div>"
+        },
+        {
+          "id": "c",
+          "content": "<div>That it was requested by El Salvador</div>"
+        },
+        {
+          "id": "d",
+          "content": "<div>That it reflected badly on the administration and they want to un-deport him</div>"
+        }
+      ],
+      "points": 1,
+      "feedback": {
+        "correct": "<div>Correct! The US government admitted that Abrego Garcia's deportation was an \"administrative error\".</div>",
+        "incorrect": "<div>Incorrect. The US government admitted that Abrego Garcia's deportation was an \"administrative error\".</div>"
+      }
+    },
+    {
+      "id": "3",
+      "title": "Q003 What was Abrego Garcia doing professionally in the US before his deportation?",
+      "category": "MCQ",
+      "prompt": "<div>What was Abrego Garcia doing professionally in the US before his deportation?</div>",
+      "answers": [
+        [
+          "a"
+        ]
+      ],
+      "choices": [
+        {
+          "id": "a",
+          "content": "<div>Working as a sheet metal apprentice pursuing a journeyman license</div>"
+        },
+        {
+          "id": "b",
+          "content": "<div>Operating an illegal business</div>"
+        },
+        {
+          "id": "c",
+          "content": "<div>Working as an undocumented laborer</div>"
+        },
+        {
+          "id": "d",
+          "content": "<div>Running a criminal enterprise</div>"
+        }
+      ],
+      "points": 1,
+      "feedback": {
+        "correct": "<div>Correct! Prior to his deportation, Abrego Garcia was working as a sheet metal apprentice pursuing a journeyman license.</div>",
+        "incorrect": "<div>Incorrect. Prior to his deportation, Abrego Garcia was working as a sheet metal apprentice pursuing a journeyman license.</div>"
+      }
+    },
+    {
+      "id": "4",
+      "title": "Q004 What did US District Judge Paula Xinis say about the allegations that Abrego Garcia was in a gang?",
+      "category": "MCQ",
+      "prompt": "<div>What did US District Judge Paula Xinis say about the allegations that Abrego Garcia was in a gang?</div>",
+      "answers": [
+        [
+          "c"
+        ]
+      ],
+      "choices": [
+        {
+          "id": "a",
+          "content": "<div>She found substantial evidence supporting the claims</div>"
+        },
+        {
+          "id": "b",
+          "content": "<div>She found the allegations credible based on multiple sources</div>"
+        },
+        {
+          "id": "c",
+          "content": "<div>She found little to no evidence to support these vague, uncorroborated allegations</div>"
+        },
+        {
+          "id": "d",
+          "content": "<div>She declined to comment on the allegations</div>"
+        }
+      ],
+      "points": 1,
+      "feedback": {
+        "correct": "<div>Correct! Judge Xinis found little to no evidence to support these vague, uncorroborated allegations of gang involvement.</div>",
+        "incorrect": "<div>Incorrect. Judge Xinis found little to no evidence to support these vague, uncorroborated allegations of gang involvement.</div>"
+      }
+    },
+    {
+      "id": "5",
+      "title": "Q005 What is the status with the Supreme Court?",
+      "category": "MCQ",
+      "prompt": "<div>What is the status with the Supreme Court?</div>",
+      "answers": [
+        [
+          "a"
+        ]
+      ],
+      "choices": [
+        {
+          "id": "a",
+          "content": "<div>The Supreme Court ruled unanimously that the Trump administration must facilitate the return of Abrego Garcia from El Salvador.</div>"
+        },
+        {
+          "id": "b",
+          "content": "<div>The Supreme Court ruled unanimously that the Trump administration appropriately deported Abrego Garcia.</div>"
+        },
+        {
+          "id": "c",
+          "content": "<div>The case was 5-4 in favor of Abrego Garcia's return</div>"
+        },
+        {
+          "id": "d",
+          "content": "<div>The case was decided 5-4 that the deportation was appropriate, but the president of El Salvador disagrees.</div>"
+        }
+      ],
+      "points": 1,
+      "feedback": {
+        "correct": "<div>Correct! The Supreme Court ruled unanimously that the Trump administration must facilitate the return of Abrego Garcia from El Salvador.</div>",
+        "incorrect": "<div>Incorrect. The Supreme Court ruled unanimously that the Trump administration must facilitate the return of Abrego Garcia from El Salvador.</div>"
+      }
+    },
+    {
+      "id": "6",
+      "title": "Q006 Abrego Garcia is married to a US citizen and has special-needs children.",
+      "category": "TF",
+      "prompt": "<div>Abrego Garcia is married to a US citizen and has special-needs children.</div>",
+      "answers": [
+        [
+          "a"
+        ]
+      ],
+      "choices": [
+        {
+          "id": "a",
+          "content": "<div>True</div>"
+        },
+        {
+          "id": "b",
+          "content": "<div>False</div>"
+        }
+      ],
+      "points": 1,
+      "feedback": {
+        "correct": "<div>Correct! Abrego Garcia is married to a US citizen and has special-needs children.</div>",
+        "incorrect": "<div>Incorrect. Abrego Garcia is married to a US citizen and has special-needs children.</div>"
+      }
+    }
+  ],
+  "metadata": {
+    "Type": "Multiple Choice",
+    "Topic": "Current Events",
+    "Difficulty": "Medium"
+  }
+}
