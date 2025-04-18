@@ -9,6 +9,7 @@ async function loadQuizzes() {
                 </div>
             </div>
         `;
+
         
         // Get GitHub repository information from URL
         const urlParts = window.location.hostname.split('.');
@@ -166,26 +167,15 @@ function renderQuizCards() {
         const topic = metadata.Topic || 'General';
         
         const cardHtml = `
-            <div class="col-md-6 col-lg-4 mb-4">
-                <div class="quiz-card shadow-sm">
-                    <div class="quiz-card-header">
-                        <h3 class="h5 mb-0">${quiz.title || 'Unnamed Quiz'}</h3>
-                    </div>
-                    <div class="quiz-card-body">
-                        <p class="mb-3">${quiz.stimulus ? stripHtml(quiz.stimulus) : 'No description available'}</p>
-                        <div class="d-flex justify-content-between mb-3">
-                            <span class="badge bg-secondary">${difficulty}</span>
-                            <span class="badge bg-info">${topic}</span>
-                        </div>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <span><i class="fas fa-question-circle"></i> ${questionCount} questions</span>
+<div class="quiz-row d-flex justify-content-start align-items-center px-3 py-3 mb-2 gap-3">
                             <button class="btn btn-primary start-quiz-btn" data-quiz-index="${index}">
                                 Start Quiz
                             </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                            <div class="quiz-title fw-semibold">
+        ${quiz.stimulus ? stripHtml(quiz.stimulus) : 'No description available'}  <span><i class="fas fa-question-circle"></i> ${questionCount} questions</span>
+    </div>
+</div>
+        
         `;
         
         quizCardsContainer.innerHTML += cardHtml;
