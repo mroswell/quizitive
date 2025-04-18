@@ -1,0 +1,251 @@
+:root {
+    --primary-color: #3498db;
+    --secondary-color: #2c3e50;
+    --accent-color: #e74c3c;
+    --light-color: #ecf0f1;
+    --dark-color: #34495e;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: var(--dark-color);
+    background-color: var(--light-color);
+    transition: background-color 0.3s ease;
+}
+
+.dark-mode {
+    --light-color: #2c3e50;
+    --dark-color: #ecf0f1;
+    background-color: var(--light-color);
+    color: var(--dark-color);
+}
+
+.container {
+    max-width: 1000px;
+}
+
+.navbar {
+    background-color: var(--secondary-color);
+}
+
+.navbar-brand {
+    font-weight: bold;
+    color: white !important;
+}
+
+.quiz-card {
+    transition: transform 0.3s, box-shadow 0.3s;
+    border-radius: 10px;
+    overflow: hidden;
+    height: 100%;
+    background-color: white;
+    border: none;
+}
+
+.dark-mode .quiz-card {
+    background-color: var(--secondary-color);
+}
+
+.quiz-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.quiz-card-header {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 15px;
+}
+
+.quiz-card-body {
+    padding: 20px;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.btn-primary:hover {
+    background-color: #2980b9;
+    border-color: #2980b9;
+}
+
+.progress {
+    height: 10px;
+    margin-bottom: 20px;
+}
+
+.question-container {
+    margin-bottom: 30px;
+}
+
+.option {
+    padding: 15px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.dark-mode .option {
+    border-color: #4a6380;
+}
+
+.option:hover {
+    background-color: #f5f5f5;
+}
+
+.dark-mode .option:hover {
+    background-color: #3a4a5e;
+}
+
+.option.selected {
+    border-color: var(--primary-color);
+    background-color: rgba(52, 152, 219, 0.1);
+}
+
+.option.correct {
+    border-color: #2ecc71;
+    background-color: rgba(46, 204, 113, 0.1);
+}
+
+.option.incorrect {
+    border-color: var(--accent-color);
+    background-color: rgba(231, 76, 60, 0.1);
+}
+
+.feedback-container {
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 20px;
+    display: none;
+}
+
+.feedback-correct {
+    background-color: rgba(46, 204, 113, 0.1);
+    border: 1px solid #2ecc71;
+}
+
+.feedback-incorrect {
+    background-color: rgba(231, 76, 60, 0.1);
+    border: 1px solid var(--accent-color);
+}
+
+.results-container {
+    text-align: center;
+    padding: 30px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.dark-mode .results-container {
+    background-color: var(--secondary-color);
+}
+
+.score-circle {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background-color: var(--primary-color);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto 30px;
+}
+
+.share-container {
+    margin-top: 20px;
+}
+
+.share-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 5px;
+    color: white;
+    transition: transform 0.3s;
+}
+
+.share-btn:hover {
+    transform: scale(1.1);
+}
+
+.loading-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 300px;
+}
+
+.spinner-border {
+    width: 3rem;
+    height: 3rem;
+}
+
+@media (max-width: 768px) {
+    .quiz-selector {
+        padding: 10px;
+    }
+    
+    .quiz-card {
+        margin-bottom: 20px;
+    }
+    
+    .option {
+        padding: 12px;
+    }
+    
+    .score-circle {
+        width: 120px;
+        height: 120px;
+    }
+}
+
+/* Accessibility enhancements */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+
+.high-contrast {
+    --primary-color: #0066CC;
+    --secondary-color: #000000;
+    --accent-color: #CC0000;
+    --light-color: #FFFFFF;
+    --dark-color: #000000;
+}
+
+.large-text {
+    font-size: 120% !important;
+}
+
+.large-text .option {
+    padding: 20px;
+}
+
+/* GitHub login button */
+.github-login-btn {
+    background-color: #24292e;
+    color: white;
+}
+
+.github-login-btn:hover {
+    background-color: #3a3a3a;
+    color: white;
+}
