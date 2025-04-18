@@ -1,0 +1,149 @@
+/* Quiz editor styles */
+#editor-container {
+    padding-top: 20px;
+    padding-bottom: 40px;
+}
+
+.editor-section {
+    margin-bottom: 30px;
+}
+
+.editor-question {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.dark-mode .editor-question {
+    background-color: #3a4a5e;
+}
+
+.editor-options {
+    margin-top: 10px;
+}
+
+.editor-option {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.github-login-btn {
+    background-color: #24292e;
+    color: white;
+}
+
+.github-login-btn:hover {
+    background-color: #3a3a3a;
+    color: white;
+}
+
+/* Question Template Styles */
+.question-text {
+    width: 100%;
+    min-height: 60px;
+}
+
+.feedback-correct, 
+.feedback-incorrect {
+    min-height: 60px;
+}
+
+.option-text {
+    flex-grow: 1;
+}
+
+/* Preview Panel */
+.preview-panel {
+    background-color: #f5f5f5;
+    border-radius: 8px;
+    padding: 20px;
+    margin-top: 20px;
+}
+
+.dark-mode .preview-panel {
+    background-color: #2c3e50;
+}
+
+/* File Upload Area */
+.file-upload-area {
+    border: 2px dashed #ccc;
+    border-radius: 8px;
+    padding: 30px;
+    text-align: center;
+    margin-bottom: 20px;
+    transition: all 0.3s;
+}
+
+.file-upload-area:hover {
+    border-color: var(--primary-color);
+    background-color: rgba(52, 152, 219, 0.05);
+}
+
+.file-upload-area.dragging {
+    background-color: rgba(52, 152, 219, 0.1);
+    border-color: var(--primary-color);
+}
+
+.file-upload-icon {
+    font-size: 3rem;
+    color: var(--secondary-color);
+    margin-bottom: 15px;
+}
+
+.btn-file {
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: pointer;
+    display: block;
+}
+
+/* Editor Actions */
+.editor-actions {
+    position: sticky;
+    bottom: 0;
+    background-color: white;
+    padding: 15px 0;
+    box-shadow: 0 -5px 10px rgba(0, 0, 0, 0.05);
+    z-index: 100;
+}
+
+.dark-mode .editor-actions {
+    background-color: var(--secondary-color);
+    box-shadow: 0 -5px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .editor-question {
+        padding: 15px;
+    }
+    
+    .editor-option {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .file-upload-area {
+        padding: 20px;
+    }
+    
+    .editor-actions {
+        padding: 10px 0;
+    }
+}
