@@ -88,7 +88,7 @@ function showView(viewElement) {
     } 
     // else if (viewElement === leaderboardContainer) {
     //     document.getElementById('leaderboard-link').classList.add('active');
-    }
+    // }
 }
 
 function showQuizSelector() {
