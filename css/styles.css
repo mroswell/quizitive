@@ -14,12 +14,12 @@ body {
     transition: background-color 0.3s ease;
 }
 
-.dark-mode {
+/* .dark-mode {
     --light-color: #2c3e50;
     --dark-color: #ecf0f1;
     background-color: var(--light-color);
     color: var(--dark-color);
-}
+} */
 
 .container {
     max-width: 1000px;
