@@ -182,7 +182,7 @@ function renderQuizCards() {
         <div class="quiz-list">
   <div class="quiz-row d-flex align-items-center px-3 py-3 mb-2">
     <div class="quiz-cell quiz-date text-muted small">
-      ${date}
+      ${quiz.date}
     </div>
     <div class="quiz-cell quiz-title flex-grow-1 fw-semibold">
         ${quiz.stimulus ? stripHtml(quiz.stimulus) : 'Quiz'}
