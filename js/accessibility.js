@@ -1,5 +1,5 @@
 // Accessibility functions
-document.getElementById('toggle-dark-mode').addEventListener('click', toggleDarkMode);
+// document.getElementById('toggle-dark-mode').addEventListener('click', toggleDarkMode);
 document.getElementById('toggle-high-contrast').addEventListener('click', toggleHighContrast);
 document.getElementById('toggle-large-text').addEventListener('click', toggleLargeText);
 document.getElementById('toggle-screen-reader').addEventListener('click', toggleScreenReader);
