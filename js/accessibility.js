@@ -35,9 +35,9 @@ function toggleScreenReader() {
 
 // Load accessibility settings from local storage
 function loadAccessibilitySettings() {
-    if (localStorage.getItem('darkMode') === 'true') {
-        document.body.classList.add('dark-mode');
-    }
+    // if (localStorage.getItem('darkMode') === 'true') {
+    //     document.body.classList.add('dark-mode');
+    // }
     
     if (localStorage.getItem('highContrast') === 'true') {
         document.body.classList.add('high-contrast');
