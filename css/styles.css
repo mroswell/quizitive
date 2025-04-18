@@ -249,3 +249,68 @@ body {
     background-color: #3a3a3a;
     color: white;
 }
+
+/* === Make Quiz Cards Look Like a Table === */
+
+#quiz-cards-container {
+    display: table;
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#quiz-cards-container > div {
+    display: table-row;
+}
+
+.quiz-card {
+    display: table-cell;
+    vertical-align: middle;
+    background-color: white;
+    padding: 15px 20px;
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    border-left: none;
+    border-right: none;
+    box-shadow: none;
+    border-radius: 0;
+    transition: background-color 0.2s;
+}
+
+.quiz-card:hover {
+    background-color: #f8f9fa;
+    transform: none;
+    box-shadow: none;
+}
+
+/* Optional: spacing inside the card’s header/body */
+.quiz-card-header,
+.quiz-card-body {
+    display: inline-block;
+    padding: 0 10px;
+}
+
+/* Dark mode compatibility */
+.dark-mode .quiz-card {
+    background-color: var(--secondary-color);
+    color: var(--dark-color);
+}
+
+/* Responsive fallback */
+@media (max-width: 768px) {
+    #quiz-cards-container {
+        display: block;
+    }
+
+    #quiz-cards-container > div {
+        display: block;
+    }
+
+    .quiz-card {
+        display: block;
+        margin-bottom: 10px;
+        border-radius: 10px;
+        border: 1px solid #ddd;
+        background-color: white;
+    }
+}
+
